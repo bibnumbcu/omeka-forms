@@ -3,7 +3,7 @@
     define('GED_URL', '');
 
     /** root file dir of this script */
-    define('ROOT_DIR', '');
+    define('ROOT_DIR', dirname(__FILE__));
 
     /** web directory after host name, if exists */
     define('WEB_DIR', '');
