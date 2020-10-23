@@ -15,14 +15,14 @@ function testaccent($name){
     return false;
 }
 
-//renvoie true si il trouve un espace dans le nom de fichier, false sinon
-function testurl($url){
-    $headers=get_headers($url);
-    //var_dump($headers);
+//renvoie true si l'url renvoie un code 200
+function testUrlOk($url){
+    $headers = get_headers($url);
+
     if (stripos($headers[0],"200 OK"))
-    return true;
+      return true;
     else
-    return false;
+      return false;
 }
 
 

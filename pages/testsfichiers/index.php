@@ -20,9 +20,9 @@
 <?php
 
     if (isset($_FILES['fichiercsv'])):
-        //var_dump($_FILES['fichiercsv']);
-        $uploadfile =  'file/'.$_FILES['fichiercsv']['name'];
-        if (!move_uploaded_file($_FILES['fichiercsv']['tmp_name'],$uploadfile))
+        $uploadfile =  ROOT_DIR.'/'.$uploadDir.'/'.$_FILES['fichiercsv']['name'];
+        
+        if (!move_uploaded_file($_FILES['fichiercsv']['tmp_name'], $uploadfile ))
         exit("Erreur de téléchargement du fichier.");
 
         $file = fopen($uploadfile, 'r') or exit("unable to open file ($uploadfile)");
@@ -72,15 +72,14 @@
             }
             if (!$errors){
                 
-                if (!file_exists($serverdir.'/'.$filename)){
+                if (!file_exists($filesToImportDir.'/'.$filename)){
                     $errors = true;
                     $message .= '<li>Le fichier n\'existe pas sur le serveur.</li>';
                 }
-                // else if(!testurl($one_url) && file_exists($serverdir.'/'.$filename)){
-                //     $errors = true;
-                //     $message .= '<li>L\'url du fichier est incorrecte</li>';
-                // }
-                //testurl($one_url);
+                else if(!testUrlOk($one_url)){
+                    $errors = true;
+                    $message .= '<li>L\'url du fichier est incorrecte</li>';
+                }
             }
 
              $message .='</ul>';
@@ -94,7 +93,7 @@
         }
         $resultats .= '</table>';
         if (!$errors_found)
-        $resultats = '<p>Aucune erreur n\'a été trouvée</p>';
+            $resultats = '<p>Aucune erreur n\'a été trouvée</p>';
         echo $resultats;
     ?>
 

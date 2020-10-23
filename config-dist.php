@@ -15,9 +15,9 @@
 
     /** config test fichiers */
     //upload dir of csv file to test
-    $uploaddir = 'file';
+    $uploadDir = 'file';
     //files to import directory on the server
-    $serverdir = '';
+    $filesToImportDir = '';
 
     /** config gallica */
     $urlGallica = "";
