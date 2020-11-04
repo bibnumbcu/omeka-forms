@@ -6,7 +6,8 @@
     define('ROOT_DIR', dirname(__FILE__));
 
     /** web directory after host name, if exists */
-    define('WEB_DIR', '');
+    $dirParts = explode('/', dirname($_SERVER['PHP_SELF']) );
+    define('WEB_DIR', '/'.($dirParts[1]??''));
 
     $mainTitle = '';
 
@@ -15,11 +16,12 @@
 
     /** config test fichiers */
     //upload dir of csv file to test
-    $uploadDir = 'file';
-    //files to import directory on the server
+    $uploadDir = 'files';
+    //directory on the server with files to import
     $filesToImportDir = '';
 
     /** config gallica */
+    //prefix to add to thumbnail image name in the relation field
     $urlGallica = "";
 
     /**  config geolocalisation */
