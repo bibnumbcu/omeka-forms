@@ -19,7 +19,9 @@
     $uploadDir = 'files';
     //directory on the server with files to import
     $filesToImportDir = '';
-
+    //url pattern
+    $filesUrlPattern = '/^(https|http):\/\/bibliotheque-virtuelle\.bu\.uca\.fr\/files\/fichiers_bcu\/.*/i';
+    
     /** config gallica */
     //prefix to add to thumbnail image name in the relation field
     $urlGallica = "";
