@@ -17,12 +17,17 @@ function testaccent($name){
 
 //renvoie true si l'url renvoie un code 200
 function testUrlOk($url){
-    $headers = get_headers($url);
+    // $headers = get_headers($url);
     
-    if (stripos($headers[0],"200 OK"))
-      return true;
-    else
-      return false;
+    // if (stripos($headers[0],"200 OK"))
+    //   return true;
+    // else
+    //   return false;
+    $matches = array();
+    $match = preg_match($filesUrlPattern, $url, $matches);
+    var_dump($filesUrlPattern);
+    return $match;
+
 }
 
 

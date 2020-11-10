@@ -71,12 +71,11 @@
                 $message .= '<li>Il y a un accent dans le nom de fichier</li>';
             }
             if (!$errors){
-                
                 if (!file_exists($filesToImportDir.'/'.$filename)){
                     $errors = true;
                     $message .= '<li>Le fichier n\'existe pas sur le serveur.</li>';
                 }
-                else if(!testUrlOk($one_url)){
+                else if(!preg_match($filesUrlPattern, $one_url)){
                     $errors = true;
                     $message .= '<li>L\'url du fichier est incorrecte</li>';
                 }
