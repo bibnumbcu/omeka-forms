@@ -137,6 +137,13 @@ h1{
 	text-align:right;
 }
 
+.tests .element-form{
+	margin: 1rem 0;
+}
+
+.tests .element-form label{
+	font-weight: bold;
+}
 .tests form fieldset{
 	text-align: left;
 	background: #fff;

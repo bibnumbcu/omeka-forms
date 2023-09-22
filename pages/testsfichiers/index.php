@@ -10,8 +10,20 @@
         <form enctype="multipart/form-data" action="." method="post">
             <fieldset>
                 <input type="hidden" name="MAX_FILE_SIZE" value="2000000000" />
+                <div class="element-form">    
                     <label for="fichiercsv">Téléchargez un fichier csv</label>
                     <input name="fichiercsv" type="file" accept=".csv"/>
+                </div>
+                    
+                <div class="element-form">
+                        <label for="files_exists">Tester la présence du fichier sur le serveur</label>
+                        <input type="checkbox" id="files_exists" name="files_exists" checked />
+                </div>
+                    
+                <div class="element-form">
+                    <label for="url_format">Tester le format de l'url</label>
+                    <input type="checkbox" id="url_format" name="url_format" checked />
+                </div>
             </fieldset>
             <input type="submit" value="Envoyer le fichier" />
         </form>
@@ -45,6 +57,16 @@
        
         fclose($file);
    
+
+        $files_exists_tests = true;
+        if (!isset($_POST['files_exists'])){
+                $files_exists_tests = false;
+        }
+
+        $url_format_test = true;
+        if (!isset($_POST['url_format'])){
+                $url_format_test = false;
+        }
 ?>
 <div class="content">
     <?php 
@@ -71,11 +93,11 @@
                 $message .= '<li>Il y a un accent dans le nom de fichier</li>';
             }
             if (!$errors){
-                if (!file_exists($filesToImportDir.'/'.$filename)){
+                if ($files_exists_tests && !file_exists($filesToImportDir.'/'.$filename)){
                     $errors = true;
                     $message .= '<li>Le fichier n\'existe pas sur le serveur.</li>';
                 }
-                else if(!preg_match($filesUrlPattern, $one_url)){
+                else if($url_format_test && !preg_match($filesUrlPattern, $one_url)){
                     $errors = true;
                     $message .= '<li>L\'url du fichier est incorrecte</li>';
                 }
