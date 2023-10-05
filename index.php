@@ -13,13 +13,6 @@
 
 ?>
 
-<nav id="menuhome" class="colonnegauche">
-<ul>
-     <li><a href="/formulaires/pages/testsfichiers/index.php"><h2>Tests des fichiers</h2><div class="description">Pour tester le nom et l'url des fichiers présents dans un fichier csv</div></a></li>
-     <li><a href="/formulaires/pages/geolocalisation/index.php"><h2>Géolocalisation</h2><div class="description">Pour ajouter une carte aux élements disposant d'un champ couverture</div></a></li>
-     <li><a href="/formulaires/pages/gallica/index.php"><h2>Gallica</h2><div class="description">Pour ajouter une vignette à chaque élément qui s'affichera dans Gallica</div></a></li>
-</ul>
-</nav>
 
 <div class="content">
 
@@ -56,31 +49,60 @@
      ?>
 
 
-     <h3>Gallica</h3>
 
-          <?php if (!empty($messageGallicaFail)):?>
-               <div class="messageFail">
-                   <img src="style/images/error.png"/> <?= $messageGallicaFail ?>
-          <?php else: ?>
-          <div class="messageOk">
-                   <img src="style/images/check.png"/> <?= $messageGallicaOk ?>
-          <?php endif; ?>
+
+</div>
+
+<div class=" flex-wrap col-md-10 mx-auto d-flex flex-row">
+     <div class="card mx-5 mt-4 col-md-3" >
+          <img src="style/images/fichier.jpg" class="card-img-top" alt="...">
+          <div class="d-flex flex-column justify-content-between card-body">
+               <div>
+                    <h5 class="card-title">Test des fichiers</h5>
+                    <p class="card-text">Pour tester le nom et l'url des fichiers présents dans un fichier csv</p>
+               </div>
+               <a href="/formulaires/pages/testsfichiers/index.php" class="btn btn-info">Go !</a>
           </div>
-
-     <h3>Géolocalisations</h3>
-
-     <?php if (!empty($messageGeoFail)):?>
-          <div class="messageFail">
-              <img src="style/images/error.png"/> <?= $messageGeoFail ?>
-     <?php else: ?>
-     <div class="messageOk">
-              <img src="style/images/check.png"/> <?= $messageGeoOk ?>
-     <?php endif; ?>
      </div>
 
+     <div class="card mx-5 mt-4 col-md-3" >
+          <img src="style/images/mappemonde2.avif" class="card-img-top" alt="...">
+          <div class="d-flex flex-column justify-content-between card-body">
+               <div class="mb-3" >
+                    <h5 class="card-title">Géolocalisation</h5>
+                    <p class="card-text">Pour ajouter une carte aux élements disposant d'un champ couverture</p>
+                    <?php if (!empty($messageGeoFail)):?>
+                         <p class="text-center card-text messageFail">
+                         <img src="style/images/error.png"/> <?= $messageGeoFail ?>
+                    <?php else: ?>
+                         <p class="text-center card-text messageOk">
+                         <img src="style/images/check.png"/> <?= $messageGeoOk ?>
+                    <?php endif; ?>
+                    </p>
+               </div>
+               <a href="/formulaires/pages/geolocalisation/index.php" class="btn btn-info">Go !</a>
+          </div>
+     </div>
 
-
-
+     <div class="card mx-5 mt-4 col-md-3" >
+          <img src="style/images/livres.jpg" class="card-img-top" alt="...">
+          <div class="d-flex flex-column justify-content-between card-body">
+               <div class="mb-3">
+                    <h5 class="card-title">Gallica</h5>
+                    <p class="card-text">Pour ajouter une vignette à chaque élément qui s'affichera dans Gallica</p>
+                         <?php if (!empty($messageGallicaFail)):?>
+                              <p class="card-text text-center messageFail" >
+                                   <img src="style/images/error.png"/> <?= $messageGallicaFail ?>
+                         <?php else: ?>
+                              <p class="card-text text-center messageOk" >
+                                   <img src="style/images/check.png"/> <?= $messageGallicaOk ?>
+                         <?php endif; ?>
+                              
+                    </p>
+               </div>
+               <a href="/formulaires/pages/gallica/index.php" class="btn btn-info">Go !</a>
+          </div>
+     </div>
 </div>
 
 

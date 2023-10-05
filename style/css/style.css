@@ -1,250 +1,44 @@
-body{
-	padding:0;
-	margin:0;
-	background: url('../images/full-bloom.png');
-	color: #3873C8;
+#main-menu{
+	background-color: #006d82;
 }
-
-header{
-	height: 170px;
-	margin-bottom:10px;
-}
-	
-header img{
-	display:inline-block;
-	padding:5px 10px;
-	margin-top:10px;
-}
-header #title{
-	display:inline-block;
-	font-weight: bold;
-	font-size: 1.5em;
-	padding:5px 10px;
-	vertical-align:top;
-	margin-top:20px;
-}
-
-nav#mainmenu {
-	height: 45px;
-	line-height: 45px;
-	padding-left: 10px;
-	margin:5px 0;
-	background: #233754;
-	border:1px solid #233754;
+#main-menu a{
 	color: #fff;
-}
-
-nav#mainmenu a{
-	color: #fff;
-	text-decoration: none;
-	display:inline-block;
-	border-right: 2px solid #fff;
-	padding: 0 15px;
-}
-
-
-
-nav#mainmenu a.active{
-	background : #fffded;
-	color: #3873C8;
-	border-radius: 5px;
-}
-
-.colonnegauche{
-	display:inline-block;
-	width:30%;
-	padding:10px;
-}
-.content{
-	display:inline-block;
-	vertical-align: top;
-	width:60%;
-}
-
-/* elements communs des différentes pages */
-h1{
-	text-align: center;
-	margin-bottom:1.2em;
 	
 }
- .alert{
-	color:#c83838;
+#main-menu .nav-link{
 	font-weight: bold;
 }
-.messageFail, .messageOk, .messageInfo{
-	width:100%;
-	border-radius: 5px;
-	height:50px;
-	padding: 5px;
-	line-height: 50px;
-	vertical-align: top;
-	text-align:center;
+#main-menu.navbar {
+	margin-left: 0;
+	margin-right: 0;
 }
-.messageFail{
-	background: #ffb6b6;
-	color: #233754;
-}
-.messageOk{
-	background: #b6ffb9;
-	color: #233754;
-}
-
-.messageInfo{
-	background: #b6f7ff;
-	color: #233754;
-	font-weight: bold;
-}
-
-/* Home */
-.home #container ul{
-	padding: 0;
-}
-.home #container li{
-	list-style-type: none;
-	margin:20px 10px;
-	padding: 5px;
-}
-.home #container li a{
-	display:block;
-	text-decoration: none;
-	color: #3873C8;
-	height: 70px;
-	border:1px solid #ccc;
-	background: #fff;
-	padding:5px;
-	border-radius: 5px;
-	box-shadow: 0px 0px 2px 1px #ccc;
-	-moz-box-shadow: 0px 0px 2px 1px #ccc;
-	-webkit-box-shadow: 0px 0px 2px 1px #ccc;
-	
-}
-
-.home #container h2{
-	margin:0  0 10px 0;
-	padding:0;
-	font-size:1.2em;
-	border-bottom:1px solid #ccc;
+#main-menu li .active {
+	border-bottom: 1px solid #fff;
 }
 
 
-/* page test fichiers*/
-
-.tests form{
-	padding:10px;
-	margin : 0 auto;
-	background: #a5c9ff;
-	border-radius: 5px;
-	text-align:right;
-}
-
-.tests .element-form{
-	margin: 1rem 0;
-}
-
-.tests .element-form label{
-	font-weight: bold;
-}
-.tests form fieldset{
-	text-align: left;
-	background: #fff;
-	border-radius:5px;
-	margin-bottom: 25px;
-}
-
-.tests table{
-	background: #fff;
-	border-radius: 5px;
+.home .card{
+	box-shadow: 1px 1px 3px #3D3D3C;
 	border: 1px solid #ccc;
 }
 
-
-.tests table td{
-	border: 1px solid #ccc;	
-	padding: 0 5px;
+.home .card .card-img-top{
+	height: 250px;
+	object-fit: cover;
 }
 
-
-/* page gallica */
-.gallica table{
-	margin :0 auto;
-	background: #fff;
-	border-radius: 5px;
-	padding: 5px;
+.alert-empty{
+	color: #198754;
 }
-
-.gallica table td{
-	border: 1px solid #ccc;
-	height: 30px;
-	padding-left: 5px;
+.alert-space{
+	color: #3d3d3c;
 }
-
-.gallica .content{
-	width: 100%;
+.alert-accent{
+	color: #d60550;
 }
-
-.gallica .center{
-	text-align:center;
-	background : #a5c9ff;
-	height: 50px;
-	line-height: 50px;
-	margin-bottom:10px;
+.alert-not-exist-file{
+	color: #17a2b8;
 }
-
-.geolocalisation #items{
-	margin:30px;
-	-moz-column-count: 2;
--webkit-column-count:2;
-column-count:2;
--moz-column-gap: 10px;
--webkit-column-gap:10px;
-column-gap:10px;
-	
-}
-.geolocalisation #items li{
-	margin: 5px 0;
-}
-
-.geolocalisation #previousnext{
-	margin-top:30px;
-	width: 100%;
-	text-align:center;
-	background: #fff;
-	padding: 5px;
-}
-
-.geolocalisation #previousnext .active{
-	text-decoration: none;
-	background: #444;
-	color: white;
-}
- #previousnext .pagination{
-	padding:2px;
-}
-
-.geolocalisation ul.coverage-list{
-	margin-left:10px;
-}
-
-nav#navgeo{
-	margin: 1em auto;
-	width: 500px;
-	background: #fff;
-	text-align:center;
-	height: 1.3em;
-	padding: 0.3em;
-	border-radius: 4px;
-}
-
-nav#navgeo a{
-	border-right: none;
-	border-radius: 5px;
-	padding:3px;
-}
-nav#navgeo a.active{
-	background-color: #444;
-	color: #fff;
-}
-
-.geolocalisation h3{
-	margin-left: 0.5em;
+.alert-incorrect-url{
+	color: #e28700;
 }
