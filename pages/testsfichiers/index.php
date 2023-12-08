@@ -6,10 +6,9 @@
 ?>
 
 
-<div class="col-md-3">
-
-
-        <form enctype="multipart/form-data" action="." method="post">
+<div class="col-md-4 d-flex mx-auto">
+    
+    <form class="col-md-9" enctype="multipart/form-data" action="." method="post">
             <fieldset>
                 <input type="hidden" name="MAX_FILE_SIZE" value="2000000000" />
                 <label class="form-label" for="fichiercsv" rel="tooltip" title="Fichier CSV">Téléchargez un fichier CSV</label>
@@ -33,6 +32,10 @@
             </fieldset>
             <input type="submit" class="btn btn-info" value="Envoyer" />
         </form>
+        
+        <p class="m-3 col-md-3">
+            Ce formulaire prend un fichier csv et teste les urls si une colonne est nommée "url"
+        </p>
 </div>
 
 <?php
@@ -79,7 +82,7 @@
         require ('fonctions.php');
 
         // /** on teste si les noms de fichiers correspondent */
-        $resultats = '<h2>Résultats</h2><table class="table table-hover table-striped"><tr><th>Nom du fichier</th><th>Présent sur le serveur</th></tr>';
+        $resultats = '<h2>Résultats</h2><table class="table table-hover table-striped"><tr><th>Nom du fichier</th><th>Erreurs</th></tr>';
         $errors_found = false;
 
         foreach($urls as $one_url){

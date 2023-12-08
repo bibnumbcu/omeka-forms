@@ -13,10 +13,10 @@
     $output = '';
 
     foreach($collections as $one_collection){
-        $nb_items = testVignettes($bdd, $one_collection['record_id']);
+        $nb_items = testVignettes($bdd, $one_collection['id']);
         if ($nb_items > 0){
-            ajoutVignettes( $bdd, $one_collection['record_id'], $urlGallica );
-            $output .= 'Collection '.$one_collection['text'].' : '.$nb_items.' vignettes ajoutées';
+            ajoutVignettes( $bdd, $one_collection['id'], $urlGallica );
+            $output .= 'Collection '.$one_collection['title'].' : '.$nb_items.' vignettes ajoutées';
             $output .= "\n";
         }
     }

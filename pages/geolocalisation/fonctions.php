@@ -1,14 +1,13 @@
 <?php
 
     /**
-     * récupère les elements de type "couverture"  qui n'ont pas de localisation dans la table omeka_locations
+     * récupère les elements de type "couverture"  qui n'ont pas de localisation dans la table bu_maps_locations
      * et compte le nombre d'élements retournés
      */
     function getCoveragesWithoutGeo($bdd, $page=null, $nb_results){
-        // if ($notfound)
-        //     $select = 'SELECT DISTINCT SQL_CALC_FOUND_ROWS id, record_id, text FROM omeka_element_texts  WHERE  record_type="Item" AND element_id="38" AND id  IN (SELECT element_text_id FROM omeka_locations WHERE notfound=1) LIMIT ';
-        // else
-        $select = 'SELECT DISTINCT SQL_CALC_FOUND_ROWS id, record_id, text FROM omeka_element_texts  WHERE  record_type="Item" AND element_id="38" AND id NOT IN (SELECT element_text_id FROM omeka_locations) LIMIT ';
+        $select = 'SELECT DISTINCT SQL_CALC_FOUND_ROWS r.id as resource_id, r.title, v.value as address FROM resource as r
+                    inner join value as v on v.resource_id = r.id
+                    WHERE v.property_id="14" AND r.id NOT IN (SELECT resource_id FROM bu_maps_resources_locations) LIMIT ';
 
             
         if (!empty($page)){
@@ -27,8 +26,11 @@
     }
 
     function getLocationsNotFound($bdd, $page=null, $nb_results){
-         $select = 'SELECT DISTINCT SQL_CALC_FOUND_ROWS id, record_id, text FROM omeka_element_texts  WHERE  record_type="Item" AND element_id="38" AND id  IN (SELECT element_text_id FROM omeka_locations WHERE notfound=1) LIMIT ';
- 
+        $select = 'SELECT DISTINCT SQL_CALC_FOUND_ROWS r.id as resource_id, r.title, bo.address as address FROM resource as r
+                    inner join bu_maps_resources_locations as brl on brl.resource_id = r.id
+                    inner join bu_maps_locations as bo on brl.location_id = bo.id
+                    where  bo.notfound=1 LIMIT ';
+
         if (!empty($page)){
             $offset = $nb_results * $page;
             $select .= $offset.','.$nb_results;
@@ -37,6 +39,7 @@
             $select .= $nb_results;
         
         $requeteItems = $bdd->query($select);
+        
         $requeteCount = $bdd->query('SELECT found_rows()');
         $result['coverages'] = $requeteItems->fetchAll();
         $result['nb_coverages'] = $requeteCount->fetchColumn();
@@ -48,26 +51,26 @@
     /**
      * retoure le champ title d'un item
      */
-    function getItemTitle($bdd, $item_id){
-        $select = 'SELECT record_id,text FROM omeka_element_texts WHERE record_id="'.$item_id.'" AND element_id="50" AND record_type="Item"';
-        $requete = $bdd->query($select);
-        return $requete->fetchAll();
-    }
+    // function getItemTitle($bdd, $item_id){
+    //     $select = 'SELECT record_id,text FROM omeka_element_texts WHERE record_id="'.$item_id.'" AND element_id="50" AND record_type="Item"';
+    //     $requete = $bdd->query($select);
+    //     return $requete->fetchAll();
+    // }
 
     /**
      * retourne le champ couverture d'un item
      */
-    function getItemCoverages($bdd, $item_id){
-        $select = 'SELECT record_id,text FROM omeka_element_texts WHERE record_id="'.$item_id.'" AND element_id="38" AND record_type="Item"';
-        $requete = $bdd->query($select);
-        return $requete->fetchAll();
-    }
+    // function getItemCoverages($bdd, $item_id){
+    //     $select = 'SELECT record_id,text FROM omeka_element_texts WHERE record_id="'.$item_id.'" AND element_id="38" AND record_type="Item"';
+    //     $requete = $bdd->query($select);
+    //     return $requete->fetchAll();
+    // }
 
     /**
      *  test si la localisation a déjà été enregistrée dans la table omeka_locations
      */
     function testLocationExists($bdd, $coverage){
-        $select = 'SELECT element_text_id, latitude, longitude, address, notfound FROM omeka_locations WHERE upper(trim(address))=upper(trim("'.$coverage['text'].'"))';
+        $select = 'SELECT * FROM bu_maps_locations WHERE upper(trim(address))=upper(trim("'.$coverage['address'].'"))';
 
         $requete = $bdd->query($select);
         return $requete->fetchAll();
@@ -75,10 +78,20 @@
 
 
     /**
-     * ajoute une nouvelle localisation dans la table omeka_locations
+     * ajoute une nouvelle localisation dans la table bu_maps_locations
      */
-    function addLocation($bdd, $location, $coverage, $zoom_level, $map_type){
-        $select = 'INSERT INTO omeka_locations (element_text_id, latitude, longitude, zoom_level, map_type, address, notfound) VALUES ("'.$coverage['id'].'", "'.$location['latitude'].'", "'.$location['longitude'].'", "'.$zoom_level.'", "'.$map_type.'", "'.$coverage['text'].'", "'.$location['notfound'].'" )';
+    function addLocation($bdd, $location, $coverage){
+        $select = 'INSERT INTO bu_maps_locations (latitude, longitude, address, notfound) VALUES ("'.$location['latitude'].'", "'.$location['longitude'].'", "'.$coverage['address'].'", "'.$location['notfound'].'" )';
+         
+        $requete = $bdd->query($select);
+        return $requete;
+    }
+
+    /**
+     * ajoute un lien entre une resource et une localisation dans la table bu_maps_resources_locations
+     */
+    function addResourceLocation($bdd, $location, $coverage){
+        $select = 'INSERT INTO bu_maps_resources_locations (resource_id, location_id) VALUES ("'.$coverage['resource_id'].'", "'.$location['id'].'" )';
          
         $requete = $bdd->query($select);
         return $requete;
@@ -89,14 +102,14 @@
      */
     function findOSMLocation($bdd, $coverage, $nominatim_url, $admin_email){
         //attribution des paramètres de la requête osm
-        $coverage_text = $coverage['text'];
+        $coverage_text = $coverage['address'];
         $format = 'json';
         
 
         //on isole le code postal
         $pattern = '/\(\d{5}\)/';
         $matches = array();
-        $pattern_result = preg_match($pattern, $coverage['text'], $matches);
+        $pattern_result = preg_match($pattern, $coverage['address'], $matches);
         $postalcode = '';
         if ($pattern_result){
             $postalcode = substr($matches[0], 1, 5);

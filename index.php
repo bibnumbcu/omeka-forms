@@ -26,7 +26,8 @@
           $messageGallicaFail = '';
 
           foreach ($collections as $one_collection){
-               $nb_items = testVignettes($bdd, $one_collection['record_id']);
+               // echo $one_collection['id'];
+               $nb_items = testVignettes($bdd, $one_collection['id']);
                if ($nb_items > 0){
                    $messageGallicaFail = 'Il y a des vignettes à ajouter';
                    break;
@@ -39,11 +40,11 @@
           //message concernant la géolocalisation
           $messageGeoOk = "Tout est à jour";
           $messageGeoFail = '';
-          $results = getCoveragesWithoutGeo($bdd, 0, 1);
-          $nb_items = $results['nb_coverages'];
-          if ($nb_items > 0){
-               $messageGeoFail = 'Il y a des localisations à ajouter';
-          }
+          // $results = getCoveragesWithoutGeo($bdd, 0, 1);
+          // $nb_items = $results['nb_coverages'];
+          // if ($nb_items > 0){
+          //      $messageGeoFail = 'Il y a des localisations à ajouter';
+          // }
 
 
      ?>
@@ -55,7 +56,9 @@
 
 <div class=" flex-wrap col-md-10 mx-auto d-flex flex-row">
      <div class="card mx-5 mt-4 col-md-3" >
-          <img src="style/images/fichier.jpg" class="card-img-top" alt="...">
+          <a href="/formulaires/pages/testsfichiers/index.php">
+               <img src="style/images/fichier.jpg" class="card-img-top" alt="...">
+          </a>
           <div class="d-flex flex-column justify-content-between card-body">
                <div>
                     <h5 class="card-title">Test des fichiers</h5>
@@ -66,7 +69,9 @@
      </div>
 
      <div class="card mx-5 mt-4 col-md-3" >
-          <img src="style/images/mappemonde2.avif" class="card-img-top" alt="...">
+          <a href="/formulaires/pages/geolocalisation/index.php">
+               <img src="style/images/mappemonde2.avif" class="card-img-top" alt="...">
+          </a>
           <div class="d-flex flex-column justify-content-between card-body">
                <div class="mb-3" >
                     <h5 class="card-title">Géolocalisation</h5>
@@ -85,7 +90,9 @@
      </div>
 
      <div class="card mx-5 mt-4 col-md-3" >
-          <img src="style/images/livres.jpg" class="card-img-top" alt="...">
+          <a href="/formulaires/pages/gallica/index.php">
+               <img src="style/images/livres.jpg" class="card-img-top" alt="...">
+          </a>
           <div class="d-flex flex-column justify-content-between card-body">
                <div class="mb-3">
                     <h5 class="card-title">Gallica</h5>

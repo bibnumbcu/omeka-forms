@@ -25,7 +25,7 @@ $coverage_output = array('output_message' => '',
                             'nb_coverages_osm_notfound' => 0
 );
 
-//test
+//init
 $cpt_coverages = 0;
 $nb_coverages =0;
 
@@ -40,41 +40,39 @@ do {
     $previousTitle = '';
     
     foreach($coverages as $one_coverage){
-        $cpt_coverages++;
-        
         //echo "nb_coverages:".$nb_coverages." cpt:".$cpt_coverages."\n";
 
+        //on sort de la boucle si on a dépassé le nombre de requête nominatim
         if ($cpt_coverages > $max_cpt)
-        continue;
+            break;
         
 
-        $title = getItemTitle($bdd, $one_coverage['record_id']);
+        $title = $one_coverage['title'];
         if ($previousTitle != $title)       
-            $coverage_output['output_message'] .= "\n\n".$title[0]['text']." \n";
+            $coverage_output['output_message'] .= "\n\n".$title." \n";
 
-        $coverage_output['output_message'] .= 'Couverture : '.$one_coverage['text'];
+        $coverage_output['output_message'] .= 'Couverture : '.$one_coverage['address'];
 
-        //on test si la couverture n'a pas déjà été cherchée et enregistrée dans la table item_locations
+        //on test si la couverture n'a pas déjà été cherchée et enregistrée dans la table bu_maps_locations
         $testLocation = testLocationExists($bdd, $one_coverage);
-        
         //on test si la couverture a déjà été cherchée et n'a pas été trouvée dans open street map
         //$testLocationNotFound = testLocationNotFound($bdd, $one_coverage);
         
-        /**
-         * on test si la localisation existe dans omeka_locations
-         */
         if ($testLocation){
-            //si cette localisation a déjà été rencontrée, on peut l'ajouter dans la base pour cette couverture
-            addLocation($bdd, $testLocation[0], $one_coverage, $zoom_level, $map_type);
+            //si cette localisation a déjà été rencontrée, on peut ajouter dans la base la relation entre cette localisation et l'id de la resource
+            addResourceLocation($bdd, $testLocation[0], $one_coverage);
             
-            $coverage_output['output_message'] .= " : cette localisation existe déjà dans la table omeka_locations, ajout de ".$one_coverage['text']." pour l'élément ".$one_coverage['id'];
+            $coverage_output['output_message'] .= " : cette localisation a déjà été rencontrée, ajout de ".$one_coverage['address']." pour l'élément ".$one_coverage['resource_id'];
             $coverage_output['nb_coverages_in_database']++;
             
         }
         else{
+            $cpt_coverages++;
+
             //on fait appel à open street map pour toute localisation que l'on ne connait pas encore
             $osm_response = findOSMLocation($bdd, $one_coverage, $nominatim_url, $admin_email);
-            
+            //$osm_response = null;
+
             $coverage_output['output_message'] .= "\n-> Url OSM : ". $osm_response['url'];
             $osm_json = $osm_response['json'];
             
@@ -92,8 +90,8 @@ do {
 
             //si la réponse d'osm est vide, ça veut dire que l'adresse n'a pas été trouvée alors on l'enregistre dans la base avec notfound=1
             if (empty($osm_json)){
-                $location_osm['latitude']= 0;
-                $location_osm['longitude']= 0;
+                $location_osm['latitude']= null;
+                $location_osm['longitude']= null;
                 $location_osm['notfound']= 1;
                 
                 $coverage_output['output_message'] .= "\n-> cette localisation a été demandée à osm et n'a pas été trouvée";
@@ -109,8 +107,10 @@ do {
             }
             
             //on ajoute la localisation dans la base
-            addLocation($bdd, $location_osm, $one_coverage, $zoom_level, $map_type);
-            
+            addLocation($bdd, $location_osm, $one_coverage);
+            $testLocation = testLocationExists($bdd, $one_coverage);
+            addResourceLocation($bdd, $testLocation, $one_coverage);
+
             //temps d'attente pour ne pas se faire jeter de nominatim
             sleep(1.5);
         }

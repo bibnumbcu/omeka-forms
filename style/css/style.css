@@ -42,3 +42,7 @@
 .alert-incorrect-url{
 	color: #e28700;
 }
+
+#coverages{
+	column-count: 3;
+}
